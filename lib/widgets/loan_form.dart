@@ -12,7 +12,7 @@ import '../colors.dart';
 
 // LoanForm is a StatefulWidget that displays a loan application form.
 class LoanForm extends StatefulWidget {
-  const LoanForm({Key? key}) : super(key: key);
+  const LoanForm({super.key});
 
   @override
   _LoanFormState createState() => _LoanFormState();
@@ -26,6 +26,7 @@ class _LoanFormState extends State<LoanForm> {
   int _loanPeriod = 36;
   int _loanAmountResult = 0;
   int _loanPeriodResult = 0;
+  int _maxLoanAmount = 0;
   String _errorMessage = '';
 
   // Submit the form and update the state with the loan decision results.
@@ -46,6 +47,7 @@ class _LoanFormState extends State<LoanForm> {
           _loanPeriodResult = _loanPeriod;
         }
         _errorMessage = result['errorMessage'].toString();
+        _maxLoanAmount = int.parse(result['loanAmount'].toString());
       });
     } else {
       _loanAmountResult = 0;
@@ -106,8 +108,8 @@ class _LoanFormState extends State<LoanForm> {
                     },
                   ),
                   const SizedBox(height: 4),
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.only(left: 12),
@@ -145,14 +147,14 @@ class _LoanFormState extends State<LoanForm> {
                     },
                   ),
                   const SizedBox(height: 4),
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.only(left: 12),
                           child: Align(
                               alignment: Alignment.centerLeft,
-                              child: Text('6 months')),
+                              child: Text('12 months')),
                         ),
                       ),
                       Expanded(
@@ -174,6 +176,9 @@ class _LoanFormState extends State<LoanForm> {
           const SizedBox(height: 16.0),
           Column(
             children: [
+              Text(
+                'Approved Maximum Loan Amount Based On Credit Score: $_maxLoanAmount'),
+              const SizedBox(height: 8.0,),
               Text(
                   'Approved Loan Amount: ${_loanAmountResult != 0 ? _loanAmountResult : "--"} €'),
               const SizedBox(height: 8.0),
